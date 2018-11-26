@@ -14,9 +14,22 @@ terraform apply \
 cd -
 
 username=$(gcloud config get-value account)
+
+wget https://github.com/istio/istio/releases/download/1.0.3/istio-1.0.3-osx.tar.gz
+tar -xvf istio-1.0.3-osx.tar.gz
+rm istio-1.0.3-osx.tar.gz
+# export PATH="$PATH:/Users/slavayssiere/Code/kubernetes-formation-advanced/kubernetes-resources/gcp/istio-1.0.3/bin"
  
 for i in $(seq 0 $NB_PARTICIPANT)
 do
+    if [[ $i -eq $NB_PARTICIPANT ]]
+    then
+        echo "end ! ($i/$NB_PARTICIPANT)"
+        break
+    else
+        echo "Done for user: $i"
+    fi
+
     gcloud container clusters get-credentials "training-cluster-$i" --zone europe-west1-b
     kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$username
     kubectl apply -f ./traefik-ic/traefik-rbac.yaml
@@ -33,7 +46,13 @@ do
       sleep 1
     done
 
+    sleep 10
+
     helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/
     helm install --name prometheus-operator-cluster coreos/prometheus-operator
+
+    cd istio-1.0.3 
+    helm install install/kubernetes/helm/istio --name istio --namespace istio-system -f ../values-istio.yaml
+    cd -
 done
 

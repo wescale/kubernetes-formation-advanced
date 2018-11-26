@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ws-deployment
+  name: ws-deployment-2
   namespace: istio-demo
   labels:
-    k8s-app: ws-deployment
+    k8s-app: ws-deployment-2
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: webservice
       k8s-app: ws-deployment
-      version: v1
+      version: v2
   template:
     metadata:
       labels:
         app: webservice
         k8s-app: ws-deployment
-        version: v1
+        version: v2
     spec:
       containers:
       - name: webservice
-        image: eu.gcr.io/sandbox-wescale/webservice:v5
+        image: eu.gcr.io/sandbox-wescale/webservice:v6
         env:
         - name: PREFIX_PATH
           value: /
@@ -35,21 +35,3 @@ spec:
           requests:
             memory: "40Mi"
             cpu: "20m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ws-service
-  namespace: istio-demo
-  labels:
-    app: webservice
-    k8s-app: ws-deployment
-spec:
-  ports:
-    - port: 8080
-      targetPort: 8080
-      name: rest-api-ws
-  selector:
-    app: webservice
-    k8s-app: ws-deployment
-  type: ClusterIP
