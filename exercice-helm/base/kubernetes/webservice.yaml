@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ws-deployment
+  namespace: exercice3
+  labels:
+    k8s-app: ws-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webservice
+      k8s-app: ws-deployment
+  template:
+    metadata:
+      labels:
+        app: webservice
+        k8s-app: ws-deployment
+    spec:
+      containers:
+      - name: webservice
+        image: eu.gcr.io/sandbox-wescale/webservice:v5
+        env:
+        - name: PREFIX_PATH
+          value: /
+        ports:
+        - containerPort: 8080
+          name: rest-api-ws
+        resources:
+          limits:
+            memory: "40Mi"
+            cpu: "20m"
+          requests:
+            memory: "40Mi"
+            cpu: "20m"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ws-service
+  namespace: exercice3
+  labels:
+    app: webservice
+    k8s-app: ws-deployment
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: rest-api-ws
+  selector:
+    app: webservice
+    k8s-app: ws-deployment
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: basic-ingress
+  namespace: exercice3
+  annotations:
+    traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
+  labels:
+    traffic-type: external
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api
+        backend:
+          serviceName: ws-service
+          servicePort: 8080
