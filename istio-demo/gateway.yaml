@@ -3,6 +3,7 @@ kind: Gateway
 metadata:
   name: ws-gateway
   app: webservice
+  namespace: istio-demo
 spec:
   selector:
     istio: ingressgateway # use istio default controller

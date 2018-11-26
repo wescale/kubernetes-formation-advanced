@@ -12,3 +12,4 @@ spec:
   - route:
     - destination:
         host: ws-service
+        subset: v2
