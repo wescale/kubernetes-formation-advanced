@@ -19,9 +19,11 @@ cd -
 
 username=$(gcloud config get-value account)
 
-wget https://github.com/istio/istio/releases/download/1.0.3/istio-1.0.3-osx.tar.gz
-tar -xvf istio-1.0.3-osx.tar.gz
-rm istio-1.0.3-osx.tar.gz
+if [ ! -d "istio-1.0.3" ]; then
+    wget https://github.com/istio/istio/releases/download/1.0.3/istio-1.0.3-osx.tar.gz
+    tar -xvf istio-1.0.3-osx.tar.gz
+    rm istio-1.0.3-osx.tar.gz
+fi
 # export PATH="$PATH:/Users/slavayssiere/Code/kubernetes-formation-advanced/kubernetes-resources/gcp/istio-1.0.3/bin"
  
 for i in $(seq 0 $NB_PARTICIPANT)
@@ -60,3 +62,15 @@ do
     cd -
 done
 
+list_ip=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance*" --format="value(networkInterfaces[0].accessConfigs.natIP)")
+
+for ip in $list_ip
+do
+    echo "ip = ${ip}"
+
+    username=$(gcloud config get-value account)
+    kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$username
+    
+    echo "Done for ${ip}"
+
+done

@@ -4,6 +4,9 @@ resource "google_container_cluster" "training-cluster" {
   zone         = "${var.MOD_REGION}-b"
   initial_node_count = 3
 
+  min_master_version = "1.11.2-gke.18"
+  node_version = "1.11.2-gke.18"
+
 
   network = "${google_compute_network.training_net.name}"
   subnetwork = "${google_compute_subnetwork.training_subnet.name}"
