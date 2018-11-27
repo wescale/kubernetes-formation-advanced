@@ -24,7 +24,6 @@ resource "aws_security_group" "sg_kubernetes" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-
   egress {
     from_port   = 6443
     to_port     = 6443
@@ -44,19 +43,16 @@ resource "aws_security_group" "sg_kubernetes" {
   }
 }
 
-variable "count_master" {
-  default = 1
-}
-
 resource "aws_instance" "master" {
-  count = "${var.count_master}"
   ami                         = "ami-00035f41c82244dab"
   instance_type               = "m3.medium"
   vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
   subnet_id                   = "${var.subnet_a}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("bootstrap.sh")}"
+  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
+
+  count = "${var.nb-participants}"
 
   tags {
     Role = "master"
@@ -65,44 +61,85 @@ resource "aws_instance" "master" {
 }
 
 resource "aws_route53_record" "master-dns" {
-  count = "${var.count_master}"
-  zone_id = "${data.terraform_remote_state.layer-base.private_dns_zone_id}"
-  name    = "master-${count.index}.${data.terraform_remote_state.layer-base.private_dns_zone}"
+  count   = "${var.nb-participants}"
+  zone_id = "${var.private_dns_zone_id}"
+  name    = "master-${count.index}.${var.private_dns_zone}"
   type    = "CNAME"
   ttl     = "300"
   records = ["${element(aws_instance.master.*.private_dns, count.index)}"]
 }
 
-
-
-variable "count_worker" {
-  default = 2
-}
-
-
-resource "aws_instance" "worker" {
-  count = "${var.count_worker}"
+resource "aws_instance" "worker-a" {
+  count                       = "${var.nb-participants}"
   ami                         = "ami-00035f41c82244dab"
   instance_type               = "m3.medium"
   vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
   subnet_id                   = "${var.subnet_a}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("bootstrap.sh")}"
+  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
 
   tags {
-    Role = "worker"
-    Name = "worker-${count.index}"
+    Role = "worker-a"
+    Name = "worker-a-${count.index}"
   }
 }
 
-
-resource "aws_route53_record" "worker-dns" {
-  count = "${var.count_worker}"
-  zone_id = "${data.terraform_remote_state.layer-base.private_dns_zone_id}"
-  name    = "worker-${count.index}.${data.terraform_remote_state.layer-base.private_dns_zone}"
+resource "aws_route53_record" "worker-a-dns" {
+  count   = "${var.nb-participants}"
+  zone_id = "${var.private_dns_zone_id}"
+  name    = "worker-a-${count.index}.${var.private_dns_zone}"
   type    = "CNAME"
   ttl     = "300"
-  records = ["${element(aws_instance.worker.*.private_dns, count.index)}"]
+  records = ["${element(aws_instance.worker-a.*.private_dns, count.index)}"]
 }
 
+resource "aws_instance" "worker-b" {
+  count                       = "${var.nb-participants}"
+  ami                         = "ami-00035f41c82244dab"
+  instance_type               = "m3.medium"
+  vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
+  subnet_id                   = "${var.subnet_b}"
+  associate_public_ip_address = false
+  key_name                    = "sandbox-key"
+  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
+
+  tags {
+    Role = "worker-b"
+    Name = "worker-b-${count.index}"
+  }
+}
+
+resource "aws_route53_record" "worker-b-dns" {
+  count   = "${var.nb-participants}"
+  zone_id = "${var.private_dns_zone_id}"
+  name    = "worker-b-${count.index}.${var.private_dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["${element(aws_instance.worker-b.*.private_dns, count.index)}"]
+}
+
+resource "aws_instance" "worker-c" {
+  count                       = "${var.nb-participants}"
+  ami                         = "ami-00035f41c82244dab"
+  instance_type               = "m3.medium"
+  vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
+  subnet_id                   = "${var.subnet_c}"
+  associate_public_ip_address = false
+  key_name                    = "sandbox-key"
+  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
+
+  tags {
+    Role = "worker-c"
+    Name = "worker-c-${count.index}"
+  }
+}
+
+resource "aws_route53_record" "worker-c-dns" {
+  count   = "${var.nb-participants}"
+  zone_id = "${var.private_dns_zone_id}"
+  name    = "worker-c-${count.index}.${var.private_dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["${element(aws_instance.worker-c.*.private_dns, count.index)}"]
+}

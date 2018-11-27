@@ -62,7 +62,7 @@ output "sn_private_array" {
   value = [
     "${aws_subnet.demo_sn_private_a.id}",
     "${aws_subnet.demo_sn_private_b.id}",
-    "${aws_subnet.demo_sn_private_c.id}"
+    "${aws_subnet.demo_sn_private_c.id}",
   ]
 }
 
@@ -70,7 +70,7 @@ output "sn_public_array" {
   value = [
     "${aws_subnet.demo_sn_public_a.id}",
     "${aws_subnet.demo_sn_public_b.id}",
-    "${aws_subnet.demo_sn_public_c.id}"
+    "${aws_subnet.demo_sn_public_c.id}",
   ]
 }
 

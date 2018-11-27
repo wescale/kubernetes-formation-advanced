@@ -89,31 +89,6 @@ resource "aws_iam_role_policy_attachment" "VPC-attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
 }
 
-resource "aws_iam_policy" "eks_full_access" {
-  name        = "eks_full_access"
-  description = "A EKSFullAccess policy"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "eks:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy_attachment" "EKS-attach" {
-  role       = "${aws_iam_role.bastion_role.name}"
-  policy_arn = "${aws_iam_policy.eks_full_access.arn}"
-}
-
 resource "aws_iam_role_policy_attachment" "STS-assume-role-attach" {
   role       = "${aws_iam_role.bastion_role.name}"
   policy_arn = "arn:aws:iam::549637939820:policy/STSAssumeRoleOnly"
@@ -126,7 +101,7 @@ resource "aws_iam_instance_profile" "bastion_profile" {
 
 resource "aws_key_pair" "sandbox-key" {
   key_name   = "sandbox-key"
-  public_key = "${file("${path.cwd}/../../../kubernetes-formation.pub")}"
+  public_key = "${file("${path.cwd}/../../kubernetes-formation.pub")}"
 }
 
 resource "aws_instance" "bastion" {
@@ -135,11 +110,12 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids      = ["${aws_security_group.allow_ssh.id}"]
   subnet_id                   = "${var.subnet_a}"
   associate_public_ip_address = true
-  user_data                   = "${file("install-bastion.sh")}"
+  user_data                   = "${file("${path.cwd}/layer-bastion/install-bastion.sh")}"
   iam_instance_profile        = "${aws_iam_instance_profile.bastion_profile.name}"
   key_name                    = "sandbox-key"
+  count = "${var.nb-participants}"
 
   tags {
-    Name = "Bastion"
+    Name = "Bastion-${count.index}"
   }
 }

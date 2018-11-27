@@ -1,0 +1,26 @@
+dns:
+    zone_id: Z26HKPSKJZWHG8
+network:
+    cidr: 10.0.0.0/16
+    vpc_id: vpc-05ead533acdbce17a
+    private_a:
+        cidr: 10.0.4.0/24
+        id: subnet-0917f77ef3bfc5c7a
+        nat_id: nat-0ea4f28460f6ad3eb
+    private_b:
+        cidr: 10.0.5.0/24
+        id: subnet-0378c345828a19db2
+        nat_id: nat-0d26dfa91b6629979
+    private_c:
+        cidr: 10.0.6.0/24
+        id: subnet-0c07f937b784ad4f6
+        nat_id: nat-06deefd8ccd1a1f6f
+    public_a:
+        cidr: 10.0.1.0/24
+        id: subnet-078289a049ccea98a
+    public_b:
+        cidr: 10.0.2.0/24
+        id: subnet-0fbd19702c9aa0542
+    public_c:
+        cidr: 10.0.3.0/24
+        id: subnet-0350523cb0b983c19
