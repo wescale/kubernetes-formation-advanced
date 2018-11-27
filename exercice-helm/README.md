@@ -4,6 +4,8 @@
 
 A partir du manifest Kubernetes disponible dans "exercice-helm/base/kubernetes/webservice.yaml" il faut écrire le chart Helm.
 
+Le code est disponible dans "exercice-helm/base/src", n'hésitez pas à prendre connaissance des capacités de cette application, elle nous servira tout au long de cette formation.
+
 Pour cela vous utiliserez le cluster disponible sur GCP:
 
 - se connecter sur la VM "bastion" - le formateur vous fournira l'adresse IP - avec le compte "training" et la clef SSH disponible ici: "kubernetes-resources/kubernetes-formation"

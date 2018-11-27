@@ -10,7 +10,8 @@ gcloud config set project "sandbox-wescale"
 
 cd terraform
 terraform apply \
-    -var "nb-participants=$NB_PARTICIPANT"
+    -var "nb-participants=$NB_PARTICIPANT" \
+    -auto-approve
 cd -
 
 username=$(gcloud config get-value account)
