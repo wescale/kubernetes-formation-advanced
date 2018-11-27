@@ -7,12 +7,15 @@ test_tiller_present() {
 NB_PARTICIPANT=1
 
 gcloud config set project "sandbox-wescale"
+gcloud projects add-iam-policy-binding sandbox-wescale --member serviceAccount:admin-cluster@sandbox-wescale.iam.gserviceaccount.com --role roles/container.admin
 
 cd terraform
 terraform apply \
     -var "nb-participants=$NB_PARTICIPANT" \
     -auto-approve
 cd -
+
+
 
 username=$(gcloud config get-value account)
 

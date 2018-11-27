@@ -13,6 +13,12 @@ apt-get update && sudo apt-get install -y google-cloud-sdk kubectl nano unzip gi
 
 gcloud config set compute/zone europe-west1-b
 
+wget https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-linux-amd64.tar.gz
+tar -xvf helm-v2.11.0-linux-amd64.tar.gz
+sudo mv linux-amd64/helm /usr/local/bin/helm
+rm helm-v2.11.0-linux-amd64.tar.gz
+rm -Rf linux-amd64/
+
 cat <<EOF > /tmp/get-credential-cluster-$1.sh
 #!/bin/bash
 
@@ -24,7 +30,7 @@ done
 
 gcloud container clusters get-credentials "training-cluster-$1" --zone europe-west1-b
 
-kubectl proxy --address="0.0.0.0" --accept-hosts='.*' &
+# kubectl proxy --address="0.0.0.0" --accept-hosts='.*'
 
 EOF
 

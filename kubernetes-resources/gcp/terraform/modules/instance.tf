@@ -3,6 +3,7 @@ resource "google_compute_instance" "training-instance" {
   name         = "training-instance-${count.index}"
   machine_type = "g1-small"
   zone         = "${var.MOD_REGION}-b"
+  allow_stopping_for_update = true
 
   boot_disk {
     initialize_params {
@@ -26,6 +27,7 @@ resource "google_compute_instance" "training-instance" {
 
   service_account {
     scopes = ["https://www.googleapis.com/auth/cloud-platform", "compute-rw", "storage-rw"]
+    email = "admin-cluster@sandbox-wescale.iam.gserviceaccount.com"
   }
 
   metadata_startup_script = "curl -s https://raw.githubusercontent.com/WeScale/kubernetes-formation-advanced/master/kubernetes-resources/gcp/terraform/modules/bootstrap-vm.sh | bash -s ${count.index}"
