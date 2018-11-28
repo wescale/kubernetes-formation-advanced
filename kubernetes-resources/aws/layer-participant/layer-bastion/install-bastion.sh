@@ -18,7 +18,7 @@ chmod +x jq-linux64
 sudo mv jq-linux64 /usr/local/bin/jq
 
 
-echo "export KOPS_STATE_STORE=s3://toto" >> /home/ec2-user/.bashrc
+echo "export KOPS_STATE_STORE=s3://wescale-slavayssiere-kops" >> /home/ec2-user/.bashrc
 
 sudo yum install git
 

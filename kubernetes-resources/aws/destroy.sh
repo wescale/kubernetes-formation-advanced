@@ -1,9 +1,9 @@
 #!/bin/bash
 
 cd layer-participant
-terraform destroy
+terraform destroy -auto-approve
 cd -
 
 cd layer-base
-terraform destroy
+terraform destroy -auto-approve
 cd -
