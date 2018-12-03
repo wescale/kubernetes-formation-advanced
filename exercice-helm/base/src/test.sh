@@ -1,7 +1,7 @@
 
-docker build -t 549637939820.dkr.ecr.eu-west-1.amazonaws.com/webservice-test:0.0.2 .
+docker build -t eu.gcr.io/sandbox-wescale/webservice:v6 .
 
-docker run -it --name test-api -e PREFIX_PATH=/ -p8080:8080 eu.gcr.io/slavayssiere-sandbox/api-test:latest
+docker run -it --name test-api -e PREFIX_PATH=/ -p8080:8080 eu.gcr.io/sandbox-wescale/webservice:v7
 
 docker rm -f $(docker ps -aq)
 

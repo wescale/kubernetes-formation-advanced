@@ -25,6 +25,8 @@ spec:
         env:
         - name: PREFIX_PATH
           value: /
+        - name: JAEGER_ENDPOINT
+          value: http://jaeger-agent.istio-system:6831/api
         ports:
         - containerPort: 8080
           name: rest-api-ws

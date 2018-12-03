@@ -4,7 +4,7 @@ test_tiller_present() {
     kubectl get pod -n kube-system -l app=helm,name=tiller | grep Running | wc -l | tr -d ' '
 }
 
-NB_PARTICIPANT=1
+NB_PARTICIPANT=2
 
 gcloud config set project "sandbox-wescale"
 gcloud iam service-accounts create admin-cluster --display-name "Admin Cluster"
@@ -15,8 +15,6 @@ terraform apply \
     -var "nb-participants=$NB_PARTICIPANT" \
     -auto-approve
 cd -
-
-
 
 username=$(gcloud config get-value account)
 
@@ -65,13 +63,13 @@ do
     kubectl create clusterrolebinding admin-cluster-admin-binding --clusterrole=cluster-admin --user=admin-cluster@sandbox-wescale.iam.gserviceaccount.com
     kubectl apply -f sa-admin.yaml
 
-    kubecfg="kubeconfig-$NB_PARTICIPANT"
+    kubecfg="kubeconfig-$i"
 
     secret_sa=$(kubectl get sa local-admin -o json | jq -r .secrets[]."name")
 
-    token=$(kubectl get secret $secret_sa -o jsonpath={.data.token} | base64 -d)
+    token=$(kubectl get secret $secret_sa -o jsonpath={.data.token} | base64 -D)
 
-    kubectl get secret "${secret_sa}" -o json | jq  -r '.data["ca.crt"]' | base64 -d > "ca.crt"
+    kubectl get secret "${secret_sa}" -o json | jq  -r '.data["ca.crt"]' | base64 -D > "ca.crt"
 
     context=$(kubectl config current-context)
     echo -e "Setting current context to: $context"
@@ -107,20 +105,26 @@ do
         --kubeconfig="${kubecfg}"
 
     kubectl apply -f privilege-ecalation.yaml
-done
 
-list_ip=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance*" --format="value(networkInterfaces[0].accessConfigs.natIP)")
-
-NUMBER=0
-for ip in $list_ip
-do
-    echo "ip = ${ip}"
-    ip_use=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance-$NUMBER" --format="value(networkInterfaces[0].accessConfigs.natIP)")
-    echo "ip_use = ${ip_use}"
-    kubecfg="kubeconfig-$NUMBER"
+    ip_use=""
+    ip_use=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance-$i" --format="value(networkInterfaces[0].accessConfigs.natIP)")
+    
 
     scp -i ../kubernetes-formation $kubecfg training@${ip_use}:~/local-admin-kubeconfig
 
-    echo "Done for ${ip}"
-    NUMBER=$(expr $NUMBER + 1)
+
 done
+
+# list_ip=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance*" --format="value(networkInterfaces[0].accessConfigs.natIP)")
+
+# NUMBER=0
+# for ip in $list_ip
+# do
+#     echo "ip = ${ip}"
+#     echo "ip_use = ${ip_use}"
+#     kubecfg="kubeconfig-$NUMBER"
+
+
+#     echo "Done for ${ip}"
+#     NUMBER=$(expr $NUMBER + 1)
+# done

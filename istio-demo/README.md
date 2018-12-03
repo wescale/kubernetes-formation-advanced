@@ -7,32 +7,40 @@ Istio est déjà installé sur votre cluster.
 ## Etape 1 - déploiement de l'application
 
 ```language-bash
-kubectl apply -f namespace.yaml
-kubectl apply -f gateway.yaml
-kubectl apply -f virtualservice.yaml
-kubectl apply -f application.yaml
+kubectl apply -f 01-namespace.yaml
+kubectl apply -f 03-gateway.yaml
+kubectl apply -f 04-virtualservice.yaml
+kubectl apply -f 02-application.yaml
 ```
 
 Récupérez l'adresse Ip du LoadBalancer avec:
 
 ```language-bash
-kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 
 ## Etape 2 - nouvelle version
 
 ```language-bash
-kubectl apply -f application-2.yaml
+kubectl apply -f 05-application-2.yaml
 ```
 
 Testez avec la commande précédente.
 Quel est le problème ?
 
 ```language-bash
-kubectl apply -f destination-rule.yaml
+kubectl apply -f 06-destination-rule.yaml
 ```
 
 ## Etape 3 - prendre connaissance des outils
+
+Pour cela vous devez télécharger le fichier "local-admin-config" présent sur votre serveur localement.
+
+Puis configurer une variable d'environnement "KUBECONFIG"
+
+```language-bash
+export KUBECONFIG="kubeconfig-1"
+```
 
 ### Jaeger
 
@@ -50,7 +58,7 @@ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=se
 
 Vous pouvez ensuite voir le dashboard ici: [http://localhost:8088/force/forcegraph.html](http://localhost:8088/force/forcegraph.html)
 
-### Grafana 
+### Grafana
 
 ```language-bash
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
