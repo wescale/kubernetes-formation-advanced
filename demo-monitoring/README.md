@@ -6,7 +6,11 @@ L'operator Prometheus est déjà installé dans votre cluster.
 
 Vous pouvez déployer un prometheus dans le cluster en vous inspirant du fichier "demo-monitoring/prometheus.yaml".
 
-Pour créer le Role vous aurez besoin de prendre un droit particulier
+Pour créer le Role vous aurez besoin de prendre un droit particulier, pour faire une élévation de privilège vous pouvez utiliser la commande suivante:
+
+```language-bash
+KUBECONFIG="/home/training/local-admin-kubeconfig" kubectl apply -f role-prometheus.yaml
+```
 
 ## Déploiement applicatif
 

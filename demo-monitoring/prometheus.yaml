@@ -29,22 +29,6 @@ spec:
             storage: 5Gi
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: Role
-metadata:
-  name: prometheus
-rules:
-- apiGroups: [""]
-  resources:
-  - pods
-  - services
-  - endpoints
-  verbs: ["get", "list", "watch"]
-- apiGroups: [""]
-  resources:
-  - configmaps
-  verbs: ["get"]
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
   name: prometheus

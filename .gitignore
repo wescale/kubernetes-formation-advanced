@@ -1,2 +1,4 @@
 istio-1*
 kubernetes-resources/aws/data.yaml
+kubernetes-resources/gcp/kubeconfig-*
+kubernetes-resources/gcp/ca.crt
