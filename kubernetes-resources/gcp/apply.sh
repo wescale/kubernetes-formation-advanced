@@ -107,10 +107,11 @@ do
     kubectl apply -f privilege-ecalation.yaml
 
     ip_use=""
-    ip_use=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance-$i" --format="value(networkInterfaces[0].accessConfigs.natIP)")
+    ip_use=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance-$i" --format="value(networkInterfaces[0].accessConfigs.natIP)" | head -n 1)
     
 
     scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../kubernetes-formation $kubecfg training@${ip_use}:~/local-admin-kubeconfig
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../kubernetes-formation training@${ip_use} "git clone https://github.com/WeScale/kubernetes-formation-advanced.git"
 
+    rm $kubecfg
 done
