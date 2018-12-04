@@ -25,11 +25,8 @@ ingress:
     traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
   path: /api
   tls: []
-  labels:
-    traffic-type: external
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  hosts:
+    - *
 
 resources:
   limits:
