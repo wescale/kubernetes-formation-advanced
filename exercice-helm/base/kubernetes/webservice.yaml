@@ -67,8 +67,6 @@ metadata:
   namespace: exercice3
   annotations:
     traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
-  labels:
-    traffic-type: external
 spec:
   rules:
   - http:
