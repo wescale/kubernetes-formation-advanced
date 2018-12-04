@@ -4,7 +4,7 @@ test_tiller_present() {
     kubectl get pod -n kube-system -l app=helm,name=tiller | grep Running | wc -l | tr -d ' '
 }
 
-NB_PARTICIPANT=2
+NB_PARTICIPANT=11
 
 gcloud config set project "sandbox-wescale"
 gcloud iam service-accounts create admin-cluster --display-name "Admin Cluster"
@@ -110,21 +110,7 @@ do
     ip_use=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance-$i" --format="value(networkInterfaces[0].accessConfigs.natIP)")
     
 
-    scp -i ../kubernetes-formation $kubecfg training@${ip_use}:~/local-admin-kubeconfig
-
+    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../kubernetes-formation $kubecfg training@${ip_use}:~/local-admin-kubeconfig
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../kubernetes-formation training@${ip_use} "git clone https://github.com/WeScale/kubernetes-formation-advanced.git"
 
 done
-
-# list_ip=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance*" --format="value(networkInterfaces[0].accessConfigs.natIP)")
-
-# NUMBER=0
-# for ip in $list_ip
-# do
-#     echo "ip = ${ip}"
-#     echo "ip_use = ${ip_use}"
-#     kubecfg="kubeconfig-$NUMBER"
-
-
-#     echo "Done for ${ip}"
-#     NUMBER=$(expr $NUMBER + 1)
-# done
