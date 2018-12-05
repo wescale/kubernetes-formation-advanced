@@ -1,6 +1,6 @@
 # Enonce
 
-L'objectif est de refaire la démonstration vu à l'instant.
+L'objectif est de refaire la démonstration vue à l'instant.
 
 Istio est déjà installé sur votre cluster.
 
@@ -8,9 +8,9 @@ Istio est déjà installé sur votre cluster.
 
 ```language-bash
 kubectl apply -f 01-namespace.yaml
+kubectl apply -f 02-application.yaml
 kubectl apply -f 03-gateway.yaml
 kubectl apply -f 04-virtualservice.yaml
-kubectl apply -f 02-application.yaml
 ```
 
 Récupérez l'adresse Ip du LoadBalancer avec:
@@ -28,18 +28,21 @@ kubectl apply -f 05-application-2.yaml
 Testez avec la commande précédente.
 Quel est le problème ?
 
+Pour mettre en place un canary avec 90% de v1 et 10% de v2:
+
 ```language-bash
 kubectl apply -f 06-destination-rule.yaml
+kubectl apply -f 07-virtualservice-2.yaml
 ```
 
 ## Etape 3 - prendre connaissance des outils
 
-Pour cela vous devez télécharger le fichier "local-admin-config" présent sur votre serveur localement.
+Pour cela vous devez télécharger le fichier "local-admin-kubeconfig" présent sur votre serveur localement.
 
 Puis configurer une variable d'environnement "KUBECONFIG"
 
 ```language-bash
-export KUBECONFIG="kubeconfig-1"
+export KUBECONFIG="local-admin-kubeconfig"
 ```
 
 ### Jaeger
