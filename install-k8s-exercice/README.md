@@ -28,6 +28,13 @@ Pour attendre la validation du cluster:
 until kops validate cluster; do echo "wait"; sleep 5; done
 ```
 
+Pour créer le kubeconfig:
+
+```language-bash
+kops export kubecfg cluster-(mon numero).formation-kubernetes.wescale
+```
+
+
 ## Avec KubeSpray
 
 Une fois sur le bastion, vous trouverez un ficher "install.sh" avec la marche à suivre.
