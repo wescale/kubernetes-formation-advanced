@@ -13,3 +13,8 @@ spec:
     - destination:
         host: ws-service
         subset: v2
+      weight: 10
+    - destination:
+        host: ws-service
+        subset: v1
+      weight: 90

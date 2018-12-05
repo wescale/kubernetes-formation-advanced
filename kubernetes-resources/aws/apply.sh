@@ -7,7 +7,7 @@ cd -
 
 cd layer-participant
 terraform apply \
-    -var "nb-participants=2" \
+    -var "nb-participants=8" \
     -auto-approve
 cd -
 
@@ -24,14 +24,14 @@ do
     jinja2 ./layer-kubespray/hosts.ini.tpl > ./hosts.ini
     jinja2 ./layer-kubespray/cluster-kops.yaml.tpl ../data.yaml --format=yaml > ./cluster.yaml
 
-    scp -i ../../kubernetes-formation ./hosts.ini ec2-user@${ip}:~
-    scp -i ../../kubernetes-formation layer-kubespray/install.sh ec2-user@${ip}:~
-    scp -i ../../kubernetes-formation ./cluster.yaml ec2-user@${ip}:~
+    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation ./hosts.ini ec2-user@${ip}:~
+    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation layer-kubespray/install.sh ec2-user@${ip}:~
+    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation ./cluster.yaml ec2-user@${ip}:~
     rm ./hosts.ini
     rm ./cluster.yaml
 
-    scp -i ../../kubernetes-formation ../../kubernetes-formation ec2-user@${ip}:~/.ssh/id_rsa
-    scp -i ../../kubernetes-formation ../../kubernetes-formation.pub ec2-user@${ip}:~/.ssh/id_rsa.pub
+    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation ../../kubernetes-formation ec2-user@${ip}:~/.ssh/id_rsa
+    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation ../../kubernetes-formation.pub ec2-user@${ip}:~/.ssh/id_rsa.pub
 
     NUMBER=$(expr $NUMBER + 1)
 done

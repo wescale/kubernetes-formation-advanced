@@ -38,6 +38,22 @@ resource "aws_security_group" "sg_kubernetes" {
     cidr_blocks = ["${var.vpc_cidr}"]
   }
 
+  # for ETCD
+  egress {
+    from_port   = 2379
+    to_port     = 2380
+    protocol    = "tcp"
+    cidr_blocks = ["${var.vpc_cidr}"]
+  }
+
+  ingress {
+    from_port   = 2379
+    to_port     = 2380
+    protocol    = "tcp"
+    cidr_blocks = ["${var.vpc_cidr}"]
+  }
+  
+
   tags {
     Name = "sg_for_bastion"
   }

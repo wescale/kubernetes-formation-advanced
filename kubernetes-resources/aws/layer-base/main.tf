@@ -4,7 +4,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "wescale-slavayssiere-terraform"
+    bucket = "wescale-training-terraform"
     region = "eu-west-1"
     key    = "kubernetes/layer-base"
   }
