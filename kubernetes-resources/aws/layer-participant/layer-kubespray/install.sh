@@ -19,7 +19,7 @@ cd kubespray-test
 # get Kubespray and checkout to an useful version
 git clone https://github.com/kubernetes-incubator/kubespray
 cd kubespray
-git checkout 66e304c41b5848e90256b4a0b43ef284618bdf19
+git checkout tags/v2.5.0
 cd -
 
 # install Python dependencies

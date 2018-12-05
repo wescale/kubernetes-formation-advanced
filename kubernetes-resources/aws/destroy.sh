@@ -12,11 +12,10 @@ do
     export NUMBER=$NUMBER
     export NAME="cluster-$NUMBER.formation-kubernetes.wescale"
 
-    ssh -i ../../kubernetes-formation ec2-user@${ip} "kops delete cluster $NAME --yes"
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation ec2-user@${ip} "kops delete cluster $NAME --yes"
 
     NUMBER=$(expr $NUMBER + 1)
 done
-
 cd -
 
 cd layer-participant

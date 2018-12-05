@@ -1,4 +1,4 @@
-# KubeSpray
+# On AWS / OnPremise
 
 L'objectif ici est d'installer Kubernetes en utilisant Kubespray et Kops
 
@@ -38,3 +38,48 @@ kops export kubecfg cluster-(mon numero).formation-kubernetes.wescale
 ## Avec KubeSpray
 
 Une fois sur le bastion, vous trouverez un ficher "install.sh" avec la marche à suivre.
+
+## Installer les outils
+
+### Ajouter Helm
+
+#### Ajouter les droits RBAC pour Tiller
+
+Avec le YAML suivant:
+
+```language-yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tiller
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tiller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: tiller
+    namespace: kube-system
+```
+
+#### Initialiser Helm
+
+```language-bash
+helm init --service-account tiller
+```
+
+### Installer le prometheus-operator
+
+Aller sur [https://hub.kubeapps.com/](https://hub.kubeapps.com/) pour chercher votre package.
+
+Installer le prometheus-operator avec:
+
+```language-bash
+helm install stable/prometheus-operator --version 0.1.29
+```

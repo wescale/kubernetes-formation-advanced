@@ -42,6 +42,14 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks = ["${var.vpc_cidr}"]
   }
 
+  # allow 6443 for kubernetes master
+  egress {
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = ["${var.vpc_cidr}"]
+  }
+
   tags {
     Name = "sg_for_bastions"
   }
