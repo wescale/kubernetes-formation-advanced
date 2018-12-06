@@ -30,13 +30,13 @@ module "participant-bastion" {
 }
 
 module "participant-kubespray" {
-  nb-participants = "${var.nb-participants}"
-  vpc_cidr        = "${data.terraform_remote_state.layer-base.vpc_cidr}"
-  vpc_id          = "${data.terraform_remote_state.layer-base.vpc_id}"
-  subnet_a        = "${data.terraform_remote_state.layer-base.sn_private_a_id}"
-  subnet_b        = "${data.terraform_remote_state.layer-base.sn_private_b_id}"
-  subnet_c        = "${data.terraform_remote_state.layer-base.sn_private_c_id}"
-  private_dns_zone = "${data.terraform_remote_state.layer-base.private_dns_zone}"
+  nb-participants     = "${var.nb-participants}"
+  vpc_cidr            = "${data.terraform_remote_state.layer-base.vpc_cidr}"
+  vpc_id              = "${data.terraform_remote_state.layer-base.vpc_id}"
+  subnet_a            = "${data.terraform_remote_state.layer-base.sn_private_a_id}"
+  subnet_b            = "${data.terraform_remote_state.layer-base.sn_private_b_id}"
+  subnet_c            = "${data.terraform_remote_state.layer-base.sn_private_c_id}"
+  private_dns_zone    = "${data.terraform_remote_state.layer-base.private_dns_zone}"
   private_dns_zone_id = "${data.terraform_remote_state.layer-base.private_dns_zone_id}"
 
   source = "layer-kubespray"

@@ -3,15 +3,15 @@ terraform {
     bucket  = "sandbox-wescale-terraform-states"
     prefix  = "kubernetes-formation"
     project = "sandbox-wescale"
-    region = "europe-west1"
+    region  = "europe-west1"
   }
 }
 
 module "bootstrap-training" {
-  MOD_JSON_PATH       = "sandbox-wescale.json"
-  MOD_PROJECT         = "sandbox-wescale"
-  MOD_REGION          = "europe-west1"
-  MOD_COUNT           = "${var.nb-participants}"
+  MOD_JSON_PATH = "sandbox-wescale.json"
+  MOD_PROJECT   = "sandbox-wescale"
+  MOD_REGION    = "europe-west1"
+  MOD_COUNT     = "${var.nb-participants}"
 
   source = "modules"
 }

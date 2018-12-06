@@ -4,7 +4,7 @@ test_tiller_present() {
     kubectl get pod -n kube-system -l app=helm,name=tiller | grep Running | wc -l | tr -d ' '
 }
 
-NB_PARTICIPANT=11
+NB_PARTICIPANT=1
 
 gcloud config set project "sandbox-wescale"
 gcloud iam service-accounts create admin-cluster --display-name "Admin Cluster"

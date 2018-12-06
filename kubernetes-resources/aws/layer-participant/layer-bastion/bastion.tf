@@ -121,7 +121,7 @@ resource "aws_instance" "bastion" {
   user_data                   = "${file("${path.cwd}/layer-bastion/install-bastion.sh")}"
   iam_instance_profile        = "${aws_iam_instance_profile.bastion_profile.name}"
   key_name                    = "sandbox-key"
-  count = "${var.nb-participants}"
+  count                       = "${var.nb-participants}"
 
   tags {
     Name = "Bastion-${count.index}"

@@ -1,5 +1,5 @@
 resource "google_compute_network" "training_net" {
-  name       = "training-net"
+  name                    = "training-net"
   auto_create_subnetworks = false
 }
 
@@ -9,7 +9,6 @@ resource "google_compute_subnetwork" "training_subnet" {
   network       = "${google_compute_network.training_net.self_link}"
   region        = "${var.MOD_REGION}"
 }
-
 
 resource "google_compute_firewall" "training_fw_rules" {
   name    = "training-fw-rules"
