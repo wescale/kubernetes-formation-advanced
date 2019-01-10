@@ -1,3 +1,8 @@
+provider "google" {
+  project = "sandbox-training-225413"
+  region  = "europe-west1"
+}
+
 terraform {
   backend "gcs" {
     bucket  = "sandbox-training-terraform-states"

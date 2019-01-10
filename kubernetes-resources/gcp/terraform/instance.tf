@@ -29,7 +29,7 @@ resource "google_compute_instance" "training-instance" {
 
   service_account {
     scopes = ["https://www.googleapis.com/auth/cloud-platform", "compute-rw", "storage-rw"]
-    email  = "admin-cluster@sandbox-wescale.iam.gserviceaccount.com"
+    email  = "admin-cluster@sandbox-training-225413.iam.gserviceaccount.com"
   }
 
   metadata_startup_script = "curl -s https://raw.githubusercontent.com/WeScale/kubernetes-formation-advanced/master/kubernetes-resources/gcp/terraform/bootstrap-vm.sh | bash -s ${count.index}"

@@ -5,10 +5,11 @@ test_tiller_present() {
 }
 
 NB_PARTICIPANT=1
+GCP_PROJECT="sandbox-training-225413"
 
-gcloud config set project "sandbox-training-225413"
+gcloud config set project $GCP_PROJECT
 gcloud iam service-accounts create admin-cluster --display-name "Admin Cluster"
-gcloud projects add-iam-policy-binding sandbox-training-225413 --member serviceAccount:admin-cluster@sandbox-wescale.iam.gserviceaccount.com --role roles/container.admin
+gcloud projects add-iam-policy-binding $GCP_PROJECT --member serviceAccount:admin-cluster@$GCP_PROJECT.iam.gserviceaccount.com --role roles/container.admin
 
 cd terraform
 terraform apply \
@@ -60,7 +61,7 @@ do
     helm install install/kubernetes/helm/istio --name istio --namespace istio-system -f ../manifests/values-istio.yaml
     cd -
 
-    kubectl create clusterrolebinding admin-cluster-admin-binding --clusterrole=cluster-admin --user=admin-cluster@sandbox-wescale.iam.gserviceaccount.com
+    kubectl create clusterrolebinding admin-cluster-admin-binding --clusterrole=cluster-admin --user=admin-cluster@$GCP_PROJECT.iam.gserviceaccount.com
     kubectl apply -f manifests/sa-admin.yaml
 
     kubecfg="kubeconfig-$i"
@@ -107,7 +108,7 @@ do
     kubectl apply -f manifests/privilege-ecalation.yaml
 
     ip_use=""
-    ip_use=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance-$i" --format="value(networkInterfaces[0].accessConfigs.natIP)" | head -n 1)
+    ip_use=$(gcloud compute --project "$GCP_PROJECT" instances list --filter="name:training-instance-$i" --format="value(networkInterfaces[0].accessConfigs.natIP)" | head -n 1)
     
 
     scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../kubernetes-formation $kubecfg training@${ip_use}:~/local-admin-kubeconfig
