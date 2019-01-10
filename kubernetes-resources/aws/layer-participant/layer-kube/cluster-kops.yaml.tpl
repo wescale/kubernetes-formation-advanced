@@ -118,7 +118,7 @@ metadata:
   name: master-eu-west-1a
 spec:
   associatePublicIp: false
-  machineType: t2.micro
+  machineType: m3.medium
   maxSize: 1
   minSize: 1
   rootVolumeSize: 64
@@ -139,7 +139,7 @@ metadata:
   name: master-eu-west-1b
 spec:
   associatePublicIp: false
-  machineType: t2.micro
+  machineType: m3.medium
   maxSize: 1
   minSize: 1
   rootVolumeSize: 64
@@ -160,7 +160,7 @@ metadata:
   name: master-eu-west-1c
 spec:
   associatePublicIp: false
-  machineType: t2.micro
+  machineType: m3.medium
   maxSize: 1
   minSize: 1
   rootVolumeSize: 64
@@ -183,7 +183,7 @@ spec:
   associatePublicIp: false
   machineType: m3.medium
   maxSize: 10
-  minSize: 3
+  minSize: 1
   rootVolumeSize: 64
   rootVolumeType: gp2
   cloudLabels:
