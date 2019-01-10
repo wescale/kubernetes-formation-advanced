@@ -5,3 +5,14 @@ kubernetes-resources/gcp/ca.crt
 kubernetes-resources/gcp/terraform/ca-*.crt
 kubernetes-resources/gcp/terraform/client-*.crt
 kubernetes-resources/gcp/terraform/client-*.key
+.vscode/settings.json
+kubernetes-resources/gcp/certs/admin-csr.json
+kubernetes-resources/gcp/certs/ca.crt
+kubernetes-resources/gcp/certs/ca-config.json
+kubernetes-resources/gcp/certs/client.crt
+kubernetes-resources/gcp/certs/client.key
+kubernetes-resources/gcp/certs/local-admin.crt
+kubernetes-resources/gcp/certs/local-admin.csr
+kubernetes-resources/gcp/certs/local-admin.pem
+kubernetes-resources/gcp/certs/local-admin-key.pem
+kubernetes-resources/gcp/certs/test-kubecfg

@@ -19,3 +19,7 @@ module "bootstrap-training" {
 variable "nb-participants" {
   default = 10
 }
+
+output "cluster-endpoint" {
+  value = "${module.bootstrap-training.cluster-endpoint}"
+}

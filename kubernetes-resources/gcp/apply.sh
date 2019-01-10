@@ -57,11 +57,11 @@ do
     helm install --name prometheus-operator-cluster coreos/prometheus-operator
 
     cd istio-1.0.3 
-    helm install install/kubernetes/helm/istio --name istio --namespace istio-system -f ../values-istio.yaml
+    helm install install/kubernetes/helm/istio --name istio --namespace istio-system -f ../manifests/values-istio.yaml
     cd -
 
     kubectl create clusterrolebinding admin-cluster-admin-binding --clusterrole=cluster-admin --user=admin-cluster@sandbox-wescale.iam.gserviceaccount.com
-    kubectl apply -f sa-admin.yaml
+    kubectl apply -f manifests/sa-admin.yaml
 
     kubecfg="kubeconfig-$i"
 
@@ -104,7 +104,7 @@ do
     kubectl config use-context "local-admin" \
         --kubeconfig="${kubecfg}"
 
-    kubectl apply -f privilege-ecalation.yaml
+    kubectl apply -f manifests/privilege-ecalation.yaml
 
     ip_use=""
     ip_use=$(gcloud compute --project "sandbox-wescale" instances list --filter="name:training-instance-$i" --format="value(networkInterfaces[0].accessConfigs.natIP)" | head -n 1)
