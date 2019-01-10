@@ -1,0 +1,17 @@
+{
+  "CN": "local-admin",
+  "hosts": [""],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "France",
+      "L": "Paris",
+      "O": "system:masters",
+      "OU": "Kubernetes-Advanced",
+      "ST": "Oregon"
+    }
+  ]
+}

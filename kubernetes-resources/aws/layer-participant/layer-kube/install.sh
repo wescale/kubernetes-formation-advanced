@@ -30,6 +30,7 @@ cp -r kubespray/inventory/sample/ inventory-mycluster
 cp ../hosts.ini inventory-mycluster/hosts.ini
 echo "docker_version: '18.06'" >> inventory-mycluster/group_vars/all/docker.yml
 sed -i.bak "s/kube_version: v1.12.3/kube_version: v1.11.3/g" inventory-mycluster/group_vars/k8s-cluster/k8s-cluster.yml
+cp docker_install.yml kubespray-test/kubespray/extra_playbooks/roles/docker/defaults/main.yml
 
 # apply mitogen to reduced time 
 # cd kubespray
