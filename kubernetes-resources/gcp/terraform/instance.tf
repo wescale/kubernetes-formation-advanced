@@ -1,8 +1,8 @@
 resource "google_compute_instance" "training-instance" {
-  count                     = "${var.MOD_COUNT}"
+  count                     = "${var.nb-participants}"
   name                      = "training-instance-${count.index}"
   machine_type              = "g1-small"
-  zone                      = "${var.MOD_REGION}-b"
+  zone                      = "${var.region}-b"
   allow_stopping_for_update = true
 
   boot_disk {
@@ -32,5 +32,5 @@ resource "google_compute_instance" "training-instance" {
     email  = "admin-cluster@sandbox-wescale.iam.gserviceaccount.com"
   }
 
-  metadata_startup_script = "curl -s https://raw.githubusercontent.com/WeScale/kubernetes-formation-advanced/master/kubernetes-resources/gcp/terraform/modules/bootstrap-vm.sh | bash -s ${count.index}"
+  metadata_startup_script = "curl -s https://raw.githubusercontent.com/WeScale/kubernetes-formation-advanced/master/kubernetes-resources/gcp/terraform/bootstrap-vm.sh | bash -s ${count.index}"
 }

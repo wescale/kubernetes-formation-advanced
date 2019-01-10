@@ -1,25 +1,16 @@
 terraform {
   backend "gcs" {
-    bucket  = "sandbox-wescale-terraform-states"
-    prefix  = "kubernetes-formation"
-    project = "sandbox-wescale"
+    bucket  = "sandbox-training-terraform-states"
+    prefix  = "kubernetes-formation-advanced"
+    project = "sandbox-training-225413"
     region  = "europe-west1"
   }
 }
 
-module "bootstrap-training" {
-  MOD_JSON_PATH = "sandbox-wescale.json"
-  MOD_PROJECT   = "sandbox-wescale"
-  MOD_REGION    = "europe-west1"
-  MOD_COUNT     = "${var.nb-participants}"
-
-  source = "modules"
-}
-
 variable "nb-participants" {
-  default = 10
+  default = 1
 }
 
-output "cluster-endpoint" {
-  value = "${module.bootstrap-training.cluster-endpoint}"
+variable "region" {
+  default = "europe-west1"
 }

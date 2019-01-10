@@ -6,9 +6,9 @@ test_tiller_present() {
 
 NB_PARTICIPANT=1
 
-gcloud config set project "sandbox-wescale"
+gcloud config set project "sandbox-training-225413"
 gcloud iam service-accounts create admin-cluster --display-name "Admin Cluster"
-gcloud projects add-iam-policy-binding sandbox-wescale --member serviceAccount:admin-cluster@sandbox-wescale.iam.gserviceaccount.com --role roles/container.admin
+gcloud projects add-iam-policy-binding sandbox-training-225413 --member serviceAccount:admin-cluster@sandbox-wescale.iam.gserviceaccount.com --role roles/container.admin
 
 cd terraform
 terraform apply \

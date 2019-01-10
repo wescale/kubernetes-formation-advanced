@@ -1,7 +1,7 @@
 resource "google_container_cluster" "training-cluster" {
-  count              = "${var.MOD_COUNT}"
+  count              = "${var.nb-participants}"
   name               = "training-cluster-${count.index}"
-  zone               = "${var.MOD_REGION}-b"
+  zone               = "${var.region}-b"
   initial_node_count = 3
 
   min_master_version = "1.11.2-gke.18"
@@ -43,19 +43,19 @@ resource "google_container_cluster" "training-cluster" {
 resource "local_file" "client_certificate" {
   content  = "${element(google_container_cluster.training-cluster.*.master_auth.0.client_certificate, count.index)}"
   filename = "${path.cwd}/client-${count.index}.crt"
-  count    = "${var.MOD_COUNT}"
+  count    = "${var.nb-participants}"
 }
 
 resource "local_file" "client_key" {
   content  = "${element(google_container_cluster.training-cluster.*.master_auth.0.client_key, count.index)}"
   filename = "${path.cwd}/client-${count.index}.key"
-  count    = "${var.MOD_COUNT}"
+  count    = "${var.nb-participants}"
 }
 
 resource "local_file" "cluster_ca_certificate" {
   content  = "${element(google_container_cluster.training-cluster.*.master_auth.0.cluster_ca_certificate, count.index)}"
   filename = "${path.cwd}/ca-${count.index}.crt"
-  count    = "${var.MOD_COUNT}"
+  count    = "${var.nb-participants}"
 }
 
 output "cluster-endpoint" {
