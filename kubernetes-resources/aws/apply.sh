@@ -1,5 +1,7 @@
 #!/bin/bash
 
+NB_PARTICIPANT=1
+
 cd layer-base
 terraform apply \
     -auto-approve
@@ -7,7 +9,7 @@ cd -
 
 cd layer-participant
 terraform apply \
-    -var "nb-participants=8" \
+    -var "nb-participants=$NB_PARTICIPANT" \
     -auto-approve
 cd -
 
@@ -21,11 +23,11 @@ do
     echo "$NUMBER > [$ip]"
     export NUMBER=$NUMBER
     export NAME="cluster-$NUMBER.formation-kubernetes.wescale"
-    jinja2 ./layer-kubespray/hosts.ini.tpl > ./hosts.ini
-    jinja2 ./layer-kubespray/cluster-kops.yaml.tpl ../data.yaml --format=yaml > ./cluster.yaml
+    jinja2 ./layer-kube/hosts.ini.tpl > ./hosts.ini
+    jinja2 ./layer-kube/cluster-kops.yaml.tpl ../data.yaml --format=yaml > ./cluster.yaml
 
     scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation ./hosts.ini ec2-user@${ip}:~
-    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation layer-kubespray/install.sh ec2-user@${ip}:~
+    scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation layer-kube/install.sh ec2-user@${ip}:~
     scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../kubernetes-formation ./cluster.yaml ec2-user@${ip}:~
     rm ./hosts.ini
     rm ./cluster.yaml

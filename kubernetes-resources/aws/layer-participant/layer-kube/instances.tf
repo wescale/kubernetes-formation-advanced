@@ -65,7 +65,7 @@ resource "aws_instance" "master" {
   subnet_id                   = "${var.subnet_a}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
+  user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
 
   count = "${var.nb-participants}"
 
@@ -92,7 +92,7 @@ resource "aws_instance" "worker-a" {
   subnet_id                   = "${var.subnet_a}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
+  user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
 
   tags {
     Role = "worker-a"
@@ -117,7 +117,7 @@ resource "aws_instance" "worker-b" {
   subnet_id                   = "${var.subnet_b}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
+  user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
 
   tags {
     Role = "worker-b"
@@ -142,7 +142,7 @@ resource "aws_instance" "worker-c" {
   subnet_id                   = "${var.subnet_c}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("${path.cwd}/layer-kubespray/bootstrap.sh")}"
+  user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
 
   tags {
     Role = "worker-c"

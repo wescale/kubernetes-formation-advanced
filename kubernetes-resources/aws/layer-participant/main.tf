@@ -29,7 +29,7 @@ module "participant-bastion" {
   source = "layer-bastion"
 }
 
-module "participant-kubespray" {
+module "participant-kube" {
   nb-participants     = "${var.nb-participants}"
   vpc_cidr            = "${data.terraform_remote_state.layer-base.vpc_cidr}"
   vpc_id              = "${data.terraform_remote_state.layer-base.vpc_id}"
@@ -39,7 +39,7 @@ module "participant-kubespray" {
   private_dns_zone    = "${data.terraform_remote_state.layer-base.private_dns_zone}"
   private_dns_zone_id = "${data.terraform_remote_state.layer-base.private_dns_zone_id}"
 
-  source = "layer-kubespray"
+  source = "layer-kube"
 }
 
 output "list_bastion" {
