@@ -59,7 +59,7 @@ resource "aws_security_group" "sg_kubernetes" {
 }
 
 resource "aws_instance" "master" {
-  ami                         = "ami-00035f41c82244dab"
+  ami                         = "ami-3548444c"
   instance_type               = "m3.medium"
   vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
   subnet_id                   = "${var.subnet_a}"
@@ -86,7 +86,7 @@ resource "aws_route53_record" "master-dns" {
 
 resource "aws_instance" "worker-a" {
   count                       = "${var.nb-participants}"
-  ami                         = "ami-00035f41c82244dab"
+  ami                         = "ami-3548444c"
   instance_type               = "m3.medium"
   vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
   subnet_id                   = "${var.subnet_a}"
@@ -111,13 +111,13 @@ resource "aws_route53_record" "worker-a-dns" {
 
 resource "aws_instance" "worker-b" {
   count                       = "${var.nb-participants}"
-  ami                         = "ami-00035f41c82244dab"
+  ami                         = "ami-3548444c"
   instance_type               = "m3.medium"
   vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
   subnet_id                   = "${var.subnet_b}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
+  // user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
 
   tags {
     Role = "worker-b"
@@ -136,13 +136,13 @@ resource "aws_route53_record" "worker-b-dns" {
 
 resource "aws_instance" "worker-c" {
   count                       = "${var.nb-participants}"
-  ami                         = "ami-00035f41c82244dab"
+  ami                         = "ami-3548444c"
   instance_type               = "m3.medium"
   vpc_security_group_ids      = ["${aws_security_group.sg_kubernetes.id}"]
   subnet_id                   = "${var.subnet_c}"
   associate_public_ip_address = false
   key_name                    = "sandbox-key"
-  user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
+  // user_data                   = "${file("${path.cwd}/layer-kube/bootstrap.sh")}"
 
   tags {
     Role = "worker-c"

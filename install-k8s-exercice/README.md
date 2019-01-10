@@ -38,6 +38,17 @@ kops export kubecfg cluster-(mon numero).formation-kubernetes.wescale
 ## Avec KubeSpray
 
 Une fois sur le bastion, vous trouverez un ficher "install.sh" avec la marche à suivre.
+Lancer ce fichier pour installer Kubernetes avec kubespray.
+
+### Connexion au master
+
+```language-bash
+ssh centos@master-0.formation-kubernetes.wescale "sudo cp /etc/kubernetes/admin.conf /tmp/admin.conf; sudo chmod a+r /tmp/admin.conf"
+
+scp centos@master-0.formation-kubernetes.wescale:/tmp/admin.conf ~/.kube/config
+
+kubectl get nodes
+```
 
 ## Installer les outils
 

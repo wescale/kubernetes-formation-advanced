@@ -85,3 +85,23 @@ sudo systemctl restart sshd
 
 sudo chmod a-w /etc/ssh/ssh_config
 
+wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+chmod +x cfssl_linux-amd64
+sudo mv cfssl_linux-amd64 /usr/local/bin/cfssl
+
+wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+chmod +x cfssljson_linux-amd64
+sudo mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
+
+mkdir certs
+wget https://raw.githubusercontent.com/WeScale/kubernetes-formation-advanced/master/kubernetes-resources/gcp/certs/admin-csr.json
+mv admin-csr.json certs/
+
+wget https://raw.githubusercontent.com/WeScale/kubernetes-formation-advanced/master/kubernetes-resources/gcp/certs/ca-config.json
+mv ca-config.json certs/
+
+wget https://raw.githubusercontent.com/WeScale/kubernetes-formation-advanced/master/kubernetes-resources/gcp/certs/role.yaml
+mv role.yaml certs/
+
+mkdir ~/.kube
+
