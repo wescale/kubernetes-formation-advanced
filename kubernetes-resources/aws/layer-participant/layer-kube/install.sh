@@ -33,9 +33,9 @@ sed -i.bak "s/kube_version: v1.12.3/kube_version: v1.11.3/g" inventory-mycluster
 cp docker_install.yml kubespray-test/kubespray/extra_playbooks/roles/docker/defaults/main.yml
 
 # apply mitogen to reduced time 
-# cd kubespray
-# make mitogen
-# cd ..
+cd kubespray
+make mitogen
+cd ..
 
 # apply playbook
 ansible-playbook -i inventory-mycluster/hosts.ini kubespray/cluster.yml -b -v

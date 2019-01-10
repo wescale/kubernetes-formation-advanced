@@ -34,7 +34,6 @@ Pour créer le kubeconfig:
 kops export kubecfg cluster-(mon numero).formation-kubernetes.wescale
 ```
 
-
 ## Avec KubeSpray
 
 Une fois sur le bastion, vous trouverez un ficher "install.sh" avec la marche à suivre.
