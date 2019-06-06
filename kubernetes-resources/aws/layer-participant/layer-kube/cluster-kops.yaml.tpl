@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   name: {{ environ('NAME') }}
 spec:
-  kubernetesVersion: 1.10.6
+  kubernetesVersion: 1.12.8
   additionalPolicies:
     node: |
       [

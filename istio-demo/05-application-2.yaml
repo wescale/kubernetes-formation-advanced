@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: webservice
-        image: eu.gcr.io/sandbox-wescale/webservice:v6
+        image: eu.gcr.io/sandbox-training-225413/webservice:v0.0.2
         env:
         - name: PREFIX_PATH
           value: /

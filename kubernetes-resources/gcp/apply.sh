@@ -19,12 +19,14 @@ cd -
 
 username=$(gcloud config get-value account)
 
-if [ ! -d "istio-1.0.3" ]; then
-    wget https://github.com/istio/istio/releases/download/1.0.3/istio-1.0.3-osx.tar.gz
-    tar -xvf istio-1.0.3-osx.tar.gz
-    rm istio-1.0.3-osx.tar.gz
+istio_version="1.1.7"
+
+if [ ! -d "istio-$istio_version" ]; then
+    wget https://github.com/istio/istio/releases/download/$istio_version/istio-$istio_version-osx.tar.gz
+    tar -xvf istio-$istio_version-osx.tar.gz
+    rm istio-$istio_version-osx.tar.gz
 fi
-# export PATH="$PATH:/Users/slavayssiere/Code/kubernetes-formation-advanced/kubernetes-resources/gcp/istio-1.0.3/bin"
+# export PATH="$PATH:/Users/slavayssiere/Code/kubernetes-formation-advanced/kubernetes-resources/gcp/istio-$istio_version/bin"
  
 for i in $(seq 0 $NB_PARTICIPANT)
 do
@@ -57,8 +59,28 @@ do
     helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/
     helm install --name prometheus-operator-cluster coreos/prometheus-operator
 
-    cd istio-1.0.3 
-    helm install install/kubernetes/helm/istio --name istio --namespace istio-system -f ../manifests/values-istio.yaml
+    cd istio-$istio_version 
+    helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+    sleep 20
+    KIALI_USERNAME=$(echo -n "admin" | base64)
+    KIALI_PASSPHRASE=$(echo -n "admin" | base64)
+
+    cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiali
+  namespace: istio-system
+  labels:
+    app: kiali
+type: Opaque
+data:
+  username: $KIALI_USERNAME
+  passphrase: $KIALI_PASSPHRASE
+EOF
+
+    helm install install/kubernetes/helm/istio --name istio --namespace istio-system -f ../manifests/values-istio-$istio_version.yaml
+    kubectl apply -f ../expose-telemetry/
     cd -
 
     kubectl create clusterrolebinding admin-cluster-admin-binding --clusterrole=cluster-admin --user=admin-cluster@$GCP_PROJECT.iam.gserviceaccount.com
