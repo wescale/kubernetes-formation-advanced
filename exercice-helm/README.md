@@ -23,6 +23,8 @@ Une fois le manifest reporté dans le chart vous pourrez tester votre chart avec
 helm install --dry-run --debug ./mychart
 ```
 
+Vous pouvez maintenant utiliser l'image "eu.gcr.io/sandbox-training-225413/webservice:v0.0.2".
+
 puis le déployer sur votre cluster avec la commande
 
 ```language-bash
