@@ -29,6 +29,12 @@ puis le déployer sur votre cluster avec la commande
 helm install --name example ./mychart
 ```
 
+mettre à jour le déploiement
+
+```language-bash
+helm upgrade -f ./mychart/values.yaml example ./mychart
+```
+
 pour désinstaller le chart dans le cluster
 
 ```language-bash

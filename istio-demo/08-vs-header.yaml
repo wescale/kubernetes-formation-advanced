@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ws-virtualservice
+  namespace: istio-demo
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ws-gateway
+  http:
+  - match:
+    - headers:
+        end-users:
+          exact: internal
+    route:
+    - destination:
+        host: ws-service
+        subset: v2
+  - route:
+    - destination:
+        host: ws-service
+        subset: v1

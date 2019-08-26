@@ -4,7 +4,7 @@ test_tiller_present() {
     kubectl get pod -n kube-system -l app=helm,name=tiller | grep Running | wc -l | tr -d ' '
 }
 
-NB_PARTICIPANT=1
+NB_PARTICIPANT=10
 GCP_PROJECT="sandbox-training-225413"
 
 gcloud config set project $GCP_PROJECT
@@ -57,7 +57,12 @@ do
     sleep 10
 
     helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/
+    helm repo add appscode https://charts.appscode.com/stable/
+
+    helm repo update
+
     helm install --name prometheus-operator-cluster coreos/prometheus-operator
+    helm install appscode/kubedb         --name kubedb-operator --version 0.12.0 --namespace kube-system
 
     cd istio-$istio_version 
     helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
@@ -82,6 +87,8 @@ EOF
     helm install install/kubernetes/helm/istio --name istio --namespace istio-system -f ../manifests/values-istio-$istio_version.yaml
     kubectl apply -f ../expose-telemetry/
     cd -
+
+    helm install appscode/kubedb-catalog --name kubedb-catalog  --version 0.12.0 --namespace kube-system
 
     kubectl create clusterrolebinding admin-cluster-admin-binding --clusterrole=cluster-admin --user=admin-cluster@$GCP_PROJECT.iam.gserviceaccount.com
     kubectl apply -f manifests/sa-admin.yaml

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: webservice
-        image: eu.gcr.io/sandbox-wescale/webservice:v5
+        image: eu.gcr.io/sandbox-training-225413/webservice:v0.0.1
         env:
         - name: PREFIX_PATH
           value: /
@@ -56,7 +56,6 @@ spec:
       targetPort: 8080
       name: rest-api-ws
   selector:
-    app: webservice
     k8s-app: ws-deployment
   type: ClusterIP
 ---

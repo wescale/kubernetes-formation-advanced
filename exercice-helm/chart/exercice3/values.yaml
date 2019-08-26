@@ -5,8 +5,8 @@
 replicaCount: 3
 
 image:
-  repository: eu.gcr.io/sandbox-wescale/webservice
-  tag: v5
+  repository: eu.gcr.io/sandbox-training-225413/webservice
+  tag: v0.0.1
   pullPolicy: IfNotPresent
   livenesspath: "/healthz"
   readynesspath: "/ready"

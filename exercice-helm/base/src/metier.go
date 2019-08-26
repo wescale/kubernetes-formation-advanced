@@ -20,7 +20,7 @@ type Client struct {
 }
 
 func handlerFactureFunc(w http.ResponseWriter, r *http.Request) {
-	clt := Facture{Contrat: "Gemalto", Days: 1.5, Cost: 22.2} //note Gemalto-2 en v6
+	clt := Facture{Contrat: "Formation", Days: 2, Cost: 33} //note Gemalto-2 en v6
 
 	// wait for latency
 	time.Sleep(time.Duration(latency) * time.Millisecond)
@@ -34,7 +34,7 @@ func handlerFactureFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlerClientFunc(w http.ResponseWriter, r *http.Request) {
-	clt := Client{Name: "Gemalto", Service: "Formation"} //note Gemalto-2 en v6
+	clt := Client{Name: "Formation", Service: "Interne"} //note Gemalto-2 en v6
 
 	// wait for latency
 	time.Sleep(time.Duration(latency) * time.Millisecond)
