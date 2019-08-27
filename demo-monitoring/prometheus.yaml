@@ -12,6 +12,7 @@ spec:
   serviceMonitorSelector:
     matchLabels:
       app: servicemonitor
+  serviceMonitorNamespaceSelector: {}
   resources:
     limits:
       cpu: 200m

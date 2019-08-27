@@ -3,7 +3,7 @@ kind: Redis
 metadata:
   name: redis-cluster
 spec:
-  version: 4.0-v2
+  version: 5.0.3-v1
   mode: Cluster
   cluster:
     master: 3
@@ -19,3 +19,10 @@ spec:
   terminationPolicy: Pause
   updateStrategy:
     type: RollingUpdate
+  monitor:
+    agent: prometheus.io/coreos-operator
+    prometheus:
+      namespace: default
+      labels:
+        app: servicemonitor
+      interval: 10s
