@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NB_PARTICIPANT=1
+NB_PARTICIPANT=10
 
 cd layer-base
 terraform apply \

@@ -11,11 +11,11 @@ gcloud config set project $GCP_PROJECT
 gcloud iam service-accounts create admin-cluster --display-name "Admin Cluster"
 gcloud projects add-iam-policy-binding $GCP_PROJECT --member serviceAccount:admin-cluster@$GCP_PROJECT.iam.gserviceaccount.com --role roles/container.admin
 
-cd terraform
-terraform apply \
-    -var "nb-participants=$NB_PARTICIPANT" \
-    -auto-approve
-cd -
+# cd terraform
+# terraform apply \
+#     -var "nb-participants=$NB_PARTICIPANT" \
+#     -auto-approve
+# cd -
 
 username=$(gcloud config get-value account)
 
